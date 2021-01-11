@@ -3,7 +3,7 @@ This will eventually be the open source location for all of the information on h
 
 For now I have posted all of the photos that I have already posted on Reddit. And here is a list of youtube links for demoes on the device in operation:
 
-Raspberry Pi CM4 Handheld - PC Games Demo:
+Raspberry Pi CM4 Handheld - PC Games Demo
 https://youtu.be/qqAcT7MvEfQ
 
 Raspberry Pi CM4 Handheld - Pixel Desktop Logout
