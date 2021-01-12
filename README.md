@@ -1,6 +1,6 @@
 # Raspberry Pi CM4 Handheld 7"
 
-<p align="center"><a href="https://www.youtube.com/watch?v=kgVz4-SEhbE"><img src="images/retropie-handheld.jpg?raw=true" width="700" height="auto" alt="RetroPie running on Raspberry Pi CM4 Handheld" /></a></p>
+<p align="center"><a href="https://www.youtube.com/watch?v=sit6ItH9wHg"><img src="Images/retropie-handheld.jpg?raw=true" width="700" height="auto" alt="RetroPie running on Raspberry Pi CM4 Handheld" /></a></p>
 
 This will eventually be the open source location for all of the information on how I built my Raspberry Pi CM4 Handheld device. I will have instructions on how to build the device and acquire all of the parts. All of the information will be posted once I finalize the design.
 
