@@ -12,13 +12,13 @@ The Aegis is a DIY handheld that uses a 3D printed case with a Raspberry Pi CM4 
 
 To build the handheld you will need the items listed as required in the Bill of Materials along with the following tools:
 
-1. Reflow Station or Reflow Oven
-2. Solding Iron
-3. Solder Paste
-4. Tweezers
-5. Small Philips Screw Driver
-6. Small Flathead Screw Driver
-7. Super Glue (preferrably CA glue with Accelerator)
+Reflow Station or Reflow Oven<br/>
+Solding Iron<br/>
+Solder Paste<br/>
+Tweezers<br/>
+Small Philips Screw Driver<br/>
+Small Flathead Screw Driver<br/>
+Super Glue (preferrably CA glue with Accelerator)
 
 There are items in the Bill of Materials that are listed as optional (such as the Wifi chip). These items are not required to get a working device but can be used if desired. At this time I will not provide directions on how to use the optional components so use at your discretion.
 
@@ -62,11 +62,11 @@ The carrier board was designed with the option of either using the CM4 lite or t
 
 Regardless of which CM4 you use and which method is used to load the OS, you will need to add the following lines to the /boot/config.txt file. These are also listed in the /Config/boot/config.txt file in this repository:
 
-dtoverlay=dwc2,dr_mode=host
-gpu_mem_256=128
-gpu_mem_512=256
-gpu_mem_1024=256
-force_turbo=1
+dtoverlay=dwc2,dr_mode=host<br/>
+gpu_mem_256=128<br/>
+gpu_mem_512=256<br/>
+gpu_mem_1024=256<br/>
+force_turbo=1<br/>
 h264_freq=333
 
 The lines above will optimize the graphics for Moonlight (if you choose to use it to stream PC games) and will enable USB 2.0 on the device to get the Teensy and external USB ports working.
