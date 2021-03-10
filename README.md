@@ -12,13 +12,13 @@ The Aegis is a DIY handheld that uses a 3D printed case with a Raspberry Pi CM4 
 
 To build the handheld you will need the items listed as required in the Bill of Materials along with the following tools:
 
-Reflow Station or Reflow Oven
-Solding Iron
-Solder Paste
-Tweezers
-Small Philips Screw Driver
-Small Flathead Screw Driver
-Super Glue (preferrably CA glue with Accelerator)
+1. Reflow Station or Reflow Oven
+2. Solding Iron
+3. Solder Paste
+4. Tweezers
+5. Small Philips Screw Driver
+6. Small Flathead Screw Driver
+7. Super Glue (preferrably CA glue with Accelerator)
 
 There are items in the Bill of Materials that are listed as optional (such as the Wifi chip). These items are not required to get a working device but can be used if desired. At this time I will not provide directions on how to use the optional components so use at your discretion.
 
@@ -51,6 +51,7 @@ https://www.thingiverse.com/thing:4789405
 Once the case and the PCB have been built and are ready to go the handheld can be assembled.
 
 TODO: step by step instructions for assembling the handheld
+
 TODO: step by step on loading the teensy with the controller code
 
 ## Software
