@@ -75,8 +75,8 @@ The lines above will optimize the graphics for Moonlight (if you choose to use i
 
 For the first boot you will need to plug in a HDMI cord into the HDMI mini port. This is required since the screen won't work yet. Once it boots you need to connect to Wifi or Ethernet through whatever OS you have installed and run the following commands (also listed in the Config folder):
 
-sudo apt install python3-gpiozero
-sudo apt install python3-smbus
+sudo apt install python3-gpiozero<br/>
+sudo apt install python3-smbus<br/>
 sudo wget https://goo.gl/iiVxuA -O /boot/dt-blob.bin
 
 These will install required packages for a system monitor script and will also install the dt-blob.bin file to get the screen working. Once this is complete reboot the handheld and unplug the HDMI cord. The device will automatically switch to the screen on the reboot.
@@ -89,11 +89,11 @@ sudo bash ./setup.sh
 
 This script will install files onto your Raspberry Pi to handle a series of things including:
 
-Provide a startup script to detect when the HDMI cord is plugged in and switch to that output
-Enable the buttons on the device to work
-Enable sound through the speakers
-Generating an overlay on the screen to give battery life, wifi status, bluetooth status, etc...
-Provide a safe shut down proceedure for when the power button is pressed
+Provide a startup script to detect when the HDMI cord is plugged in and switch to that output<br/>
+Enable the buttons on the device to work<br/>
+Enable sound through the speakers<br/>
+Generating an overlay on the screen to give battery life, wifi status, bluetooth status, etc...<br/>
+Provide a safe shut down proceedure for when the power button is pressed<br/>
 
 Once the setup script is run the files you downloaded may be deleted.
 
