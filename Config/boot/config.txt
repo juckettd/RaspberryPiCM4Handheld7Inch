@@ -1,0 +1,7 @@
+dtoverlay=dwc2,dr_mode=host
+gpu_mem_256=128
+gpu_mem_512=256
+gpu_mem_1024=256
+force_turbo=1
+h264_freq=333
+
