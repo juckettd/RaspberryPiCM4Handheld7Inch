@@ -4,6 +4,8 @@
 
 A repository for the Aegis, a 7" Raspberry Pi CM4 handheld device.
 
+NOTE: This is still a work in progress. The design has been finalized but I'm still working on the instructions, therefore there might be steps that are missing at this moment.
+
 ## Summary
 
 The Aegis is a DIY handheld that uses a 3D printed case with a Raspberry Pi CM4 and the official Raspberry Pi 7" screen. The official Raspberry Pi screen was chosen because it uses the DSI port on the Raspberry Pi and the CM4 could fit on either side of the display board. While a Raspberry Pi 4 might have fit inside the case, that was eventually designed, a custom carrier board was used to place the ports in the desired locations. To facilitate the controller portion of the device, the Wii U buttons and joysticks were used. This made it easy to use the button sub-assemblies so that the same tactile feel of the buttons could be maintained. The 3D printed case was based on the Wii U Gamepad but still designed from the ground up to fit the 7" screen and the custom circuit board. Finally, the whole thing was assembled with speakers and rumble motors to complete the handheld.
@@ -12,12 +14,12 @@ The Aegis is a DIY handheld that uses a 3D printed case with a Raspberry Pi CM4 
 
 To build the handheld you will need the items listed as required in the Bill of Materials along with the following tools:
 
-Reflow Station or Reflow Oven
-Solding Iron
-Solder Paste
-Tweezers
-Small Philips Screw Driver
-Small Flathead Screw Driver
+Reflow Station or Reflow Oven<br/>
+Solding Iron<br/>
+Solder Paste<br/>
+Tweezers<br/>
+Small Philips Screw Driver<br/>
+Small Flathead Screw Driver<br/>
 Super Glue (preferrably CA glue with Accelerator)
 
 There are items in the Bill of Materials that are listed as optional (such as the Wifi chip). These items are not required to get a working device but can be used if desired. At this time I will not provide directions on how to use the optional components so use at your discretion.
@@ -51,6 +53,7 @@ https://www.thingiverse.com/thing:4789405
 Once the case and the PCB have been built and are ready to go the handheld can be assembled.
 
 TODO: step by step instructions for assembling the handheld
+
 TODO: step by step on loading the teensy with the controller code
 
 ## Software
@@ -61,11 +64,11 @@ The carrier board was designed with the option of either using the CM4 lite or t
 
 Regardless of which CM4 you use and which method is used to load the OS, you will need to add the following lines to the /boot/config.txt file. These are also listed in the /Config/boot/config.txt file in this repository:
 
-dtoverlay=dwc2,dr_mode=host
-gpu_mem_256=128
-gpu_mem_512=256
-gpu_mem_1024=256
-force_turbo=1
+dtoverlay=dwc2,dr_mode=host<br/>
+gpu_mem_256=128<br/>
+gpu_mem_512=256<br/>
+gpu_mem_1024=256<br/>
+force_turbo=1<br/>
 h264_freq=333
 
 The lines above will optimize the graphics for Moonlight (if you choose to use it to stream PC games) and will enable USB 2.0 on the device to get the Teensy and external USB ports working.
@@ -74,8 +77,8 @@ The lines above will optimize the graphics for Moonlight (if you choose to use i
 
 For the first boot you will need to plug in a HDMI cord into the HDMI mini port. This is required since the screen won't work yet. Once it boots you need to connect to Wifi or Ethernet through whatever OS you have installed and run the following commands (also listed in the Config folder):
 
-sudo apt install python3-gpiozero
-sudo apt install python3-smbus
+sudo apt install python3-gpiozero<br/>
+sudo apt install python3-smbus<br/>
 sudo wget https://goo.gl/iiVxuA -O /boot/dt-blob.bin
 
 These will install required packages for a system monitor script and will also install the dt-blob.bin file to get the screen working. Once this is complete reboot the handheld and unplug the HDMI cord. The device will automatically switch to the screen on the reboot.
@@ -88,11 +91,11 @@ sudo bash ./setup.sh
 
 This script will install files onto your Raspberry Pi to handle a series of things including:
 
-Provide a startup script to detect when the HDMI cord is plugged in and switch to that output
-Enable the buttons on the device to work
-Enable sound through the speakers
-Generating an overlay on the screen to give battery life, wifi status, bluetooth status, etc...
-Provide a safe shut down proceedure for when the power button is pressed
+Provide a startup script to detect when the HDMI cord is plugged in and switch to that output<br/>
+Enable the buttons on the device to work<br/>
+Enable sound through the speakers<br/>
+Generating an overlay on the screen to give battery life, wifi status, bluetooth status, etc...<br/>
+Provide a safe shut down proceedure for when the power button is pressed<br/>
 
 Once the setup script is run the files you downloaded may be deleted.
 
