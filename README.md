@@ -124,3 +124,14 @@ https://youtu.be/sit6ItH9wHg
 
 Raspberry Pi CM4 Handheld - Prototype Test
 https://youtu.be/XAPKUmwa3sU
+
+## Credits
+
+To get the script and overlay down I took parts of the following work:
+
+GBZ_Overlay 
+https://github.com/d-rez/gbz_overlay
+
+Pngview
+https://github.com/AndrewFromMelbourne/raspidmx/tree/master/pngview
+
