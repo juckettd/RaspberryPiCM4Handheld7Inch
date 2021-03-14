@@ -127,7 +127,7 @@ https://youtu.be/XAPKUmwa3sU
 
 ## Credits
 
-To get the script and overlay down I took parts of the following work:
+To get the script and overlay down I took parts of the following work and adapted it to what I needed. But these projects deserve most of the credit for what they already did.
 
 GBZ_Overlay 
 https://github.com/d-rez/gbz_overlay
@@ -135,3 +135,5 @@ https://github.com/d-rez/gbz_overlay
 Pngview
 https://github.com/AndrewFromMelbourne/raspidmx/tree/master/pngview
 
+Safe shutdown script
+https://github.com/crcerror/ES-generic-shutdown/blob/master/multi_switch.sh
