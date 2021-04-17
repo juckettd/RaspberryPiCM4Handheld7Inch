@@ -2,10 +2,10 @@
 
 The change log of the Aegis 7" handheld.
 
-Version Number Details:
-x.0.0 - A new version number represents major changes to any and all aspects of the project. A new case and circuit board would be required.
-0.x.0 - A new sub-version number represents changes to the circuit board and potentially software but no changes to the case
-0.0.x - A new stage represents only software changes where the previous version/sub-version will still work with the updated software. There will not be a separate folder for this update since it is only a software update.
+Version Number Details:<br/>
+x.0.0 - A new version number represents major changes to any and all aspects of the project. A new case and circuit board would be required.<br/>
+0.x.0 - A new sub-version number represents changes to the circuit board and potentially software but no changes to the case<br/>
+0.0.x - A new stage represents only software changes where the previous version/sub-version will still work with the updated software. There will not be a separate folder for this update since it is only a software update.<br/>
 
 ### Version 1.0.0
 
