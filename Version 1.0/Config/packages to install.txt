@@ -1,0 +1,7 @@
+python3-gpiozero (buttons)
+python3-smbus (i2c comm)
+dt-blob.bin (screen)
+
+sudo apt install python3-gpiozero
+sudo apt install python3-smbus
+sudo wget https://goo.gl/iiVxuA -O /boot/dt-blob.bin
