@@ -1,0 +1,255 @@
+//-------------------------------------------------------------------------
+//
+// The MIT License (MIT)
+//
+// Copyright (c) 2013 Andrew Duncan
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//-------------------------------------------------------------------------
+
+#define _GNU_SOURCE
+
+#include <assert.h>
+#include <ctype.h>
+#include <signal.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+#include "backgroundLayer.h"
+#include "imageLayer.h"
+#include "key.h"
+#include "loadpng.h"
+
+#include "bcm_host.h"
+
+#ifndef ICON_BUF
+#define ICON_BUF 200
+#endif
+
+#ifndef MAX_BUF
+#define MAX_BUF 400
+#endif
+
+//-------------------------------------------------------------------------
+
+#define NDEBUG
+
+//-------------------------------------------------------------------------
+
+const char *program = NULL;
+char iconpath[ICON_BUF];
+
+const char env_icons[3][MAX_BUF];
+const char wifi_icons[6][MAX_BUF];
+const char bt_icons[2][MAX_BUF];
+const char bar_icons[3][MAX_BUF];
+const char critical_battery_icon[MAX_BUF];
+const char color[] = "white";
+const char wifi_carrier[] = "/sys/class/net/wlan0/carrier"; // 1 when wifi connected, 0 when disconnected and/or ifdown
+const char wifi_linkmode[] = "/sys/class/net/wlan0/link_mode"; // 1 when ifup, 0 when ifdown
+const char bt_devices_dir[] = "/sys/class/bluetooth";
+const char env_cmd[] = "vcgencmd get_throttled";
+
+const int dpi = 24;
+const int levels[] = {5, 10, 20, 30, 50, 60, 80, 90, 100};
+const char icons_discharging[11][MAX_BUF] = {"alert_red", "alert", "20", "30", "50", "50", "60", "60", "80", "90", "full" };
+const char icon_charging[] = "charging";
+
+int wifi_state = 0;
+int bt_state = 0;
+int battery_level = 0;
+int env = 0;
+uint16_t background = 0x0000;
+u displayNumber = 0;
+
+//-------------------------------------------------------------------------
+
+volatile bool run = true;
+
+//-------------------------------------------------------------------------
+
+static void
+signalHandler(
+    int signalNumber)
+{
+    switch (signalNumber)
+    {
+    case SIGINT:
+    case SIGTERM:
+
+        run = false;
+        break;
+    };
+}
+
+//-------------------------------------------------------------------------
+
+void initialize()
+{
+    if (signal(SIGINT, signalHandler) == SIG_ERR)
+    {
+        perror("installing SIGINT signal handler");
+        exit(EXIT_FAILURE);
+    }
+
+    //---------------------------------------------------------------------
+
+    if (signal(SIGTERM, signalHandler) == SIG_ERR)
+    {
+        perror("installing SIGTERM signal handler");
+        exit(EXIT_FAILURE);
+    }
+
+    //---------------------------------------------------------------------
+
+    bcm_host_init();
+
+    //---------------------------------------------------------------------
+
+    DISPMANX_DISPLAY_HANDLE_T display = vc_dispmanx_display_open(displayNumber);
+    assert(display != 0);
+
+    //---------------------------------------------------------------------
+
+    DISPMANX_MODEINFO_T info;
+    int result = vc_dispmanx_display_get_info(display, &info);
+    assert(result == 0);
+
+    //---------------------------------------------------------------------
+
+    BACKGROUND_LAYER_T backgroundLayer;
+    initBackgroundLayer(&backgroundLayer, background, 0);
+}
+
+void setupFiles()
+{
+    getcwd(iconpath, ICON_BUF);
+    strcat(iconpath, "/overlay_icons/");
+    sprintf(env_icons[0], "%s%s%d%s", iconpath, "flash_", dpi, "dp.png");
+    sprintf(env_icons[1], "%s%s%d%s", iconpath, "thermometer_", dpi, "dp.png");
+    sprintf(env_icons[2], "%s%s%d%s", iconpath, "thermometer-lines_", dpi, "dp.png");
+
+    sprintf(wifi_icons[0], "%s%s%s%s%d%s", iconpath, "twotone_signal_wifi_4_bar_", color, "_", dpi, "dp.png");
+    sprintf(wifi_icons[1], "%s%s%s%s%d%s", iconpath, "twotone_signal_wifi_3_bar_", color, "_", dpi, "dp.png");
+    sprintf(wifi_icons[2], "%s%s%s%s%d%s", iconpath, "twotone_signal_wifi_2_bar_", color, "_", dpi, "dp.png");
+    sprintf(wifi_icons[3], "%s%s%s%s%d%s", iconpath, "twotone_signal_wifi_1_bar_", color, "_", dpi, "dp.png");
+    sprintf(wifi_icons[4], "%s%s%s%s%d%s", iconpath, "twotone_signal_wifi_0_bar_", color, "_", dpi, "dp.png");
+    sprintf(wifi_icons[5], "%s%s%s%s%d%s", iconpath, "twotone_signal_wifi_off_", color, "_", dpi, "dp.png");
+
+    sprintf(bt_icons[0], "%s%s%s%s%d%s", iconpath, "twotone_bluetooth_", color, "_", dpi, "dp.png");
+    sprintf(bt_icons[1], "%s%s%s%s%d%s", iconpath, "twotone_bluetooth_disabled_", color, "_", dpi, "dp.png");
+
+    sprintf(bar_icons[0], "%s%s%s%s%d%s", iconpath, "volume_bar_", color, "_", dpi, "dp.png");
+    sprintf(bar_icons[1], "%s%s%s%s%d%s", iconpath, "brightness_bar_", color, "_", dpi, "dp.png");
+    sprintf(bar_icons[2], "%s%s%s%s%d%s", iconpath, "dot_", color, "_", dpi, "dp.png");
+
+    sprintf(critical_battery_icon, "%s%s", iconpath, "alert-outline-red.png");
+}
+
+void loadImage(char* fileName, int layer)
+{
+    IMAGE_LAYER_T imageLayer;
+
+    // Load image from path
+    if (loadPng(&(imageLayer.image), fileName) == false)
+    {
+        fprintf(stderr, "unable to load %s\n", fileName);
+        exit(EXIT_FAILURE);
+    }
+
+    createResourceImageLayer(&imageLayer, layer);
+}
+
+void loadImages()
+{
+
+}
+
+void get_charging_status()
+{
+    
+}
+//-------------------------------------------------------------------------
+
+int main(int argc, char *argv[])
+{
+    int32_t xOffset = 0;
+    int32_t yOffset = 0;
+    uint32_t timeout = 0;
+    bool xOffsetSet = false;
+    bool yOffsetSet = false;
+    bool interactive = true;
+
+    program = basename(argv[0]);
+
+    setupFiles();
+    initialize();
+
+	/*
+
+    DISPMANX_UPDATE_HANDLE_T update = vc_dispmanx_update_start(0);
+    assert(update != 0);
+
+    if (background > 0)
+    {
+        addElementBackgroundLayer(&backgroundLayer, display, update);
+    }
+
+    if (xOffsetSet == false)
+    {
+        xOffset = (info.width - imageLayer.image.width) / 2;
+    }
+
+    if (yOffsetSet == false)
+    {
+        yOffset = (info.height - imageLayer.image.height) / 2;
+    }
+
+    addElementImageLayerOffset(&imageLayer,
+                               xOffset,
+                               yOffset,
+                               display,
+                               update);
+
+    result = vc_dispmanx_update_submit_sync(update);
+    assert(result == 0);
+
+    //---------------------------------------------------------------------
+
+    if (background > 0)
+    {
+        destroyBackgroundLayer(&backgroundLayer);
+    }
+
+    destroyImageLayer(&imageLayer);
+
+    //---------------------------------------------------------------------
+
+    result = vc_dispmanx_display_close(display);
+    assert(result == 0);
+
+    //---------------------------------------------------------------------
+*/
+    return 0;
+}
+

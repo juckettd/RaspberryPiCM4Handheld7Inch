@@ -1,0 +1,3 @@
+dtoverlay=dwc2,dr_mode=host
+h264_freq=333
+

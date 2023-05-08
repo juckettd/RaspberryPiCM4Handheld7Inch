@@ -1,0 +1,10 @@
+dt-blob.bin (screen)
+wiringpi (update for CM4)
+
+sudo wget https://datasheets.raspberrypi.com/cmio/dt-blob-disp1-only.bin -O /boot/dt-blob.bin
+move dt-blob.bin to /boot/ directory
+
+git clone https://github.com/WiringPi/WiringPi
+cd WiringPi
+./build
+
